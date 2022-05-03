@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 18:44:14 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/03 18:56:25 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/03 19:03:00 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	main(void)
 {
-	ft_printf("server init()\n");
+	int	pid;
+
+	pid = getpid();
+	ft_printf("PID: %d\n", pid);
 	return (0);
 }
