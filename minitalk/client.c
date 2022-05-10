@@ -6,23 +6,11 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 18:44:16 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/10 16:56:41 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/10 17:09:52 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-void	print_error(int err_num)
-{
-	ft_printf("Error\n");
-	if (err_num == FEW_ARG)
-		ft_printf("Too Few Argument: need pid and string\n");
-	else if (err_num == PID_INVAL)
-		ft_printf("PID is invalid\n");
-	else if (err_num == KILL_FAIL)
-		ft_printf("Kill failed\n");
-	exit(1);
-}
 
 int	is_str_valid_pid(char *s)
 {

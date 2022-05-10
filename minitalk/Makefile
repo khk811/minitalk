@@ -6,7 +6,7 @@
 #    By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/03 18:36:46 by hyunkkim          #+#    #+#              #
-#    Updated: 2022/05/03 19:00:04 by hyunkkim         ###   ########seoul.kr   #
+#    Updated: 2022/05/10 17:10:18 by hyunkkim         ###   ########seoul.kr   #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,10 @@ LIBFT=libftprintf.a
 INCLUDE=-I ./Libft -I ./ft_printf
 RM=rm -f
 CP=cp
-SRC_CLIENT= client.c
-SRC_SERVER=server.c
+SRC_CLIENT= client.c \
+			utils.c
+SRC_SERVER=server.c \
+			utils.c
 OBJ_CLIENT=$(SRC_CLIENT:.c=.o)
 OBJ_SERVER=$(SRC_SERVER:.c=.o)
 
