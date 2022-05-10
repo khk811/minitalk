@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/03 18:44:38 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/10 18:00:29 by hyunkkim         ###   ########seoul.kr  */
+/*   Created: 2022/05/10 17:09:32 by hyunkkim          #+#    #+#             */
+/*   Updated: 2022/05/10 17:09:56 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "minitalk.h"
 
-# include "libft.h"
-# include "ft_printf.h"
-# include <signal.h>
-
-# define PID_INVAL	1
-# define FEW_ARG	2
-# define KILL_FAIL	3
-# define SIG_INVAL	4
-
-void	print_error(int err_num);
-
-#endif
+void	print_error(int err_num)
+{
+	ft_printf("Error\n");
+	if (err_num == FEW_ARG)
+		ft_printf("Too Few Argument: need pid and string\n");
+	else if (err_num == PID_INVAL)
+		ft_printf("PID is invalid\n");
+	else if (err_num == KILL_FAIL)
+		ft_printf("Kill failed\n");
+	else if (err_num == SIG_INVAL)
+		ft_printf("Detect Wrong Signal\n");
+	exit(1);
+}
