@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:46:00 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/11 20:37:30 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/11 20:52:38 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	handler(int n)
 	{
 		index = 0;
 		if (input == 0)
+		{
+			ft_printf("\n");
 			return (0);
+		}
 		ft_printf("%c", input);
 		input = 0;
 	}
@@ -43,7 +46,6 @@ void	send_sig_to_client(int sig, siginfo_t *info, void *ucontext)
 	if (client_pid == INIT_PID)
 	{
 		client_pid = info->si_pid;
-		ft_printf("curr client pid : %d\n", client_pid);
 		safe_kill(client_pid, SIGUSR1);
 	}
 	else
@@ -53,7 +55,6 @@ void	send_sig_to_client(int sig, siginfo_t *info, void *ucontext)
 			safe_kill(client_pid, SIGUSR1);
 		else
 		{
-			ft_printf("done!\n");
 			safe_kill(client_pid, SIGUSR2);
 			client_pid = INIT_PID;
 		}
