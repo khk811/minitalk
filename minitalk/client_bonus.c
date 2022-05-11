@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:24:13 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/10 18:28:29 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/11 20:36:54 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,60 +18,53 @@ void	send_bit(int pid, int bit)
 		safe_kill(pid, SIGUSR1);
 	else
 		safe_kill(pid, SIGUSR2);
-	usleep(150);
 }
 
-void	send_char(int pid, char c)
+void	send_char(int pid)
 {
-	int	n;
+	static int	n = 7;
 
-	n = 8;
-	while (n--)
-		send_bit(pid, c & (1 << n));
-}
-
-void	recieve_server_sig(int sig, siginfo_t *info, void *ucontext)
-{
-	if (sig == SIGUSR1)
-		ft_printf("Server has been answered\n");
-	if (sig == SIGUSR2)
+	if (n < 0)
 	{
-		ft_printf("Connection end. Goodbye\n");
+		(g_info.str)++;
+		n = 7;
+	}
+	if (n >= 0)
+	{
+		if (*(g_info.str))
+			send_bit(pid, *(g_info.str) & (1 << n));
+		else
+			send_bit(pid, 0 & (1 << n));
+		n--;
+	}
+}
+
+void	recieve_server_sig(int sig)
+{
+	static int	sig_count = 0;
+
+	if (sig == SIGUSR1)
+	{
+		send_char(g_info.pid);
+		sig_count++;
+	}
+	else
+	{
+		ft_printf("Total %d signal received.\n", sig_count);
+		sig_count = 0;
 		exit(0);
 	}
-	usleep(100);
-	info->si_signo = 0;
-	ucontext = NULL;
-}
-
-void	send_sig_to_server(int server_pid, char *target_str)
-{
-	safe_kill(server_pid, SIGUSR1);
-	usleep(150);
-	while (*target_str)
-		send_char(server_pid, *(target_str++));
-	if (*target_str == 0)
-		send_char(server_pid, 0);
 }
 
 int	main(int argc, char **argv)
 {
-	int					server_pid;
-	char				*target_str;
-	struct sigaction	recieve_sig;
-
 	if (argc != 3)
 		print_error(FEW_ARG);
-	server_pid = is_str_valid_pid(argv[1]);
-	target_str = argv[2];
-	sigemptyset(&recieve_sig.sa_mask);
-	sigaddset(&recieve_sig.sa_mask, SIGUSR1);
-	sigaddset(&recieve_sig.sa_mask, SIGUSR2);
-	recieve_sig.sa_sigaction = recieve_server_sig;
-	recieve_sig.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &recieve_sig, NULL);
-	sigaction(SIGUSR2, &recieve_sig, NULL);
-	send_sig_to_server(server_pid, target_str);
+	g_info.pid = is_str_valid_pid(argv[1]);
+	g_info.str = argv[2];
+	signal(SIGUSR1, &recieve_server_sig);
+	signal(SIGUSR2, &recieve_server_sig);
+	safe_kill(g_info.pid, SIGUSR1);
 	while (1)
 		pause();
 	return (0);

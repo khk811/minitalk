@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:46:00 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/10 18:28:53 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/11 20:37:30 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	handler(int n)
 			input++;
 		index++;
 	}
-	else if (n != SIGUSR1 || n != SIGUSR2)
-		print_error(SIG_INVAL);
 	if (index >= 8)
 	{
 		index = 0;
@@ -45,18 +43,18 @@ void	send_sig_to_client(int sig, siginfo_t *info, void *ucontext)
 	if (client_pid == INIT_PID)
 	{
 		client_pid = info->si_pid;
-		safe_kill(info->si_pid, SIGUSR1);
+		ft_printf("curr client pid : %d\n", client_pid);
+		safe_kill(client_pid, SIGUSR1);
 	}
-	else if (client_pid != info->si_pid && is_pid_valid(info->si_pid))
-		safe_kill(info->si_pid, SIGUSR2);
-	else if (client_pid == info->si_pid && is_pid_valid(info->si_pid))
+	else
 	{
 		handler_result = handler(sig);
 		if (handler_result)
-			safe_kill(info->si_pid, SIGUSR1);
+			safe_kill(client_pid, SIGUSR1);
 		else
 		{
-			safe_kill(info->si_pid, SIGUSR2);
+			ft_printf("done!\n");
+			safe_kill(client_pid, SIGUSR2);
 			client_pid = INIT_PID;
 		}
 	}
@@ -68,9 +66,6 @@ int	main(void)
 	int					pid;
 	struct sigaction	recieve_bit;
 
-	sigemptyset(&recieve_bit.sa_mask);
-	sigaddset(&recieve_bit.sa_mask, SIGUSR1);
-	sigaddset(&recieve_bit.sa_mask, SIGUSR2);
 	recieve_bit.sa_sigaction = send_sig_to_client;
 	recieve_bit.sa_flags = SA_SIGINFO;
 	sigaction(SIGUSR1, &recieve_bit, NULL);
@@ -79,4 +74,5 @@ int	main(void)
 	ft_printf("PID: %d\n", pid);
 	while (1)
 		pause();
+	return (0);
 }
