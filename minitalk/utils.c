@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:09:32 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/10 17:09:56 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/11 20:41:38 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,36 @@ void	print_error(int err_num)
 		ft_printf("PID is invalid\n");
 	else if (err_num == KILL_FAIL)
 		ft_printf("Kill failed\n");
-	else if (err_num == SIG_INVAL)
-		ft_printf("Detect Wrong Signal\n");
 	exit(1);
+}
+
+int	is_pid_valid(int pid)
+{
+	if (pid > 100 && pid < 99998)
+		return (1);
+	return (0);
+}
+
+int	is_str_valid_pid(char *s)
+{
+	char	*tmp;
+	int		pid;
+
+	tmp = s;
+	while (*tmp)
+	{
+		if (!ft_isdigit(*tmp))
+			print_error(PID_INVAL);
+		tmp++;
+	}
+	pid = ft_atoi(s);
+	if (!is_pid_valid(pid))
+		print_error(PID_INVAL);
+	return (pid);
+}
+
+void	safe_kill(int pid, int signo)
+{
+	if (kill(pid, signo) == -1)
+		print_error(KILL_FAIL);
 }
