@@ -6,42 +6,18 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 18:44:16 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/10 17:09:52 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/11 20:49:06 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	is_str_valid_pid(char *s)
-{
-	char	*tmp;
-	int		pid;
-
-	tmp = s;
-	while (*tmp)
-	{
-		if (!ft_isdigit(*tmp))
-			print_error(PID_INVAL);
-		tmp++;
-	}
-	pid = ft_atoi(s);
-	if (pid < 100 || pid > 99998)
-		print_error(PID_INVAL);
-	return (pid);
-}
-
 void	send_bit(int pid, int bit)
 {
 	if (!bit)
-	{
-		if (kill(pid, SIGUSR1) == -1)
-			print_error(KILL_FAIL);
-	}
+		safe_kill(pid, SIGUSR1);
 	else
-	{
-		if (kill(pid, SIGUSR2) == -1)
-			print_error(KILL_FAIL);
-	}
+		safe_kill(pid, SIGUSR2);
 	usleep(150);
 }
 
@@ -52,6 +28,7 @@ void	send_char(int pid, char c)
 	n = 8;
 	while (n--)
 		send_bit(pid, c & (1 << n));
+	usleep(100);
 }
 
 int	main(int argc, char **argv)
@@ -65,5 +42,7 @@ int	main(int argc, char **argv)
 	target_str = argv[2];
 	while (*target_str)
 		send_char(server_pid, *(target_str++));
+	if (!(*target_str))
+		send_char(server_pid, 0);
 	return (0);
 }

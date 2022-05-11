@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 18:44:14 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/10 17:10:19 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/11 20:49:59 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,16 @@ void	handler(int n)
 			input++;
 		index++;
 	}
-	else if (n != SIGUSR1 || n != SIGUSR2)
-		print_error(SIG_INVAL);
 	if (index >= 8)
 	{
+		index = 0;
+		if (input == 0)
+		{
+			ft_printf("\n");
+			return ;
+		}
 		ft_printf("%c", input);
 		input = 0;
-		index = 0;
 	}
 }
 
