@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:09:32 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/11 20:41:38 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/12 14:31:09 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	print_error(int err_num)
 
 int	is_pid_valid(int pid)
 {
-	if (pid > 100 && pid < 99998)
+	if (pid > 99 && pid < 100000)
 		return (1);
 	return (0);
 }
