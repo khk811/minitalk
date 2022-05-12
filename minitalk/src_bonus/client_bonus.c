@@ -6,11 +6,13 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:24:13 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/11 20:36:54 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/12 14:07:27 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
+
+t_info	g_info;
 
 void	send_bit(int pid, int bit)
 {

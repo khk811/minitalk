@@ -6,7 +6,7 @@
 /*   By: hyunkkim <hyunkkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 18:44:38 by hyunkkim          #+#    #+#             */
-/*   Updated: 2022/05/11 20:44:37 by hyunkkim         ###   ########seoul.kr  */
+/*   Updated: 2022/05/12 14:07:32 by hyunkkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ typedef struct s_info
 	int		pid;
 	char	*str;
 }	t_info;
-
-t_info	g_info;
 
 void	print_error(int err_num);
 int		is_str_valid_pid(char *s);
